@@ -7,6 +7,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: <span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>-&gt;<span class="number">5</span>-&gt;NULL</span><br><span class="line">输出: <span class="number">5</span>-&gt;<span class="number">4</span>-&gt;<span class="number">3</span>-&gt;<span class="number">2</span>-&gt;<span class="number">1</span>-&gt;NULL<span class="string">'</span></span><br></pre></td></tr></table></figure>
 <p>进阶:<br>你可以迭代或递归地反转链表。你能否用两种方法解决这道题？</p>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/reverse-linked-list" target="_blank" rel="noopener">https://leetcode-cn.com/problems/reverse-linked-list</a></p>
+<a id="more"></a>
 <p>题解：</p>
 <ul>
 <li>递归 </li>
