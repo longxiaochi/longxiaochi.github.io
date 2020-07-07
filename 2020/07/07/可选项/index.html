@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":"ture","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="可选项定义 可选项，也成为可选类型，它允许将值设置为nil。 在类型名称后面加一个? 来定义一个可选项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift 可选项">
+<meta property="og:url" content="http://yoursite.com/2020/07/07/%E5%8F%AF%E9%80%89%E9%A1%B9/index.html">
+<meta property="og:site_name" content="龙驰的博客">
+<meta property="og:description" content="可选项定义 可选项，也成为可选类型，它允许将值设置为nil。 在类型名称后面加一个? 来定义一个可选项。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-07T08:32:53.000Z">
+<meta property="article:modified_time" content="2020-07-07T09:25:12.541Z">
+<meta property="article:author" content="DRAGON">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/07/%E5%8F%AF%E9%80%89%E9%A1%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Swift 可选项 | 龙驰的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">龙驰的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">远方就在脚下</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/%E5%8F%AF%E9%80%89%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/user.jpg">
+      <meta itemprop="name" content="DRAGON">
+      <meta itemprop="description" content="合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="龙驰的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift 可选项
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-07 16:32:53 / 修改时间：17:25:12" itemprop="dateCreated datePublished" datetime="2020-07-07T16:32:53+08:00">2020-07-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/07/%E5%8F%AF%E9%80%89%E9%A1%B9/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/07/%E5%8F%AF%E9%80%89%E9%A1%B9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="可选项"><a href="#可选项" class="headerlink" title="可选项"></a>可选项</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>可选项，也成为可选类型，它允许将值设置为nil。</li>
+<li>在类型名称后面加一个? 来定义一个可选项。<a id="more"></a>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例子1</span></span><br><span class="line"><span class="keyword">var</span> num: <span class="type">Int?</span> = <span class="number">10</span></span><br><span class="line">num = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 例子2</span></span><br><span class="line"><span class="keyword">let</span> array = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">get</span><span class="params">(<span class="number">_</span> index: Int)</span></span> -&gt; <span class="type">Int?</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> index &lt; <span class="number">0</span> || index &gt;= array.<span class="built_in">count</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array[index]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="强制解包"><a href="#强制解包" class="headerlink" title="强制解包"></a>强制解包</h3><p>可选项是其他类型的一层包装。可以理解为一个空盒子。</p>
+<ul>
+<li>如果为nil, 则可以理解为空盒子</li>
+<li>不为nil, 则可以理解为盒子里装的是：被包装类型的数据</li>
+</ul>
+<p>要想从可选项中取出被包装的数据，则需要使用感叹号！进行强制解包。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="type">Int?</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> ageInt: <span class="type">Int</span> = age!  <span class="comment">//进行强制解包</span></span><br><span class="line">ageInt += <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>注意： 如果对空的可选项进行强制解包，会报运行时错误。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line">age!   <span class="comment">// 会报错</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="可选项绑定"><a href="#可选项绑定" class="headerlink" title="可选项绑定"></a>可选项绑定</h3><p>可以使用可选项绑定来判断一个可选项是否包含值。</p>
+<ul>
+<li>如果包含值就会进行自动解包，将值赋值给一个临时的常量(let）或者 变量（var）,并返回true， 否则返回false。<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> num = <span class="type">Int</span>(<span class="string">"123"</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"可选项绑定失败"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="可选项的并运行符"><a href="#可选项的并运行符" class="headerlink" title="可选项的并运行符"></a>可选项的并运行符</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> num1 = <span class="type">Int</span>(<span class="string">"4"</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> num2 = <span class="type">Int</span>(<span class="string">"2"</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> num1 &gt; num2 &amp;&amp; num2 &gt; <span class="number">1</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(num1)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> num1 = <span class="type">Int</span>(<span class="string">"4"</span>), </span><br><span class="line">   <span class="keyword">let</span> num2 = <span class="type">Int</span>(<span class="string">"2"</span>), </span><br><span class="line">   num1 &gt; num2 &amp;&amp; num2 &gt; <span class="number">1</span> &#123;</span><br><span class="line">     <span class="built_in">print</span>(num1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">上面两种写法是等价的。</span><br></pre></td></tr></table></figure>
+
+<h3 id="空合并运算符"><a href="#空合并运算符" class="headerlink" title="空合并运算符 ??"></a>空合并运算符 ??</h3><p>a ?? b</p>
+<ul>
+<li>a 是可选项。</li>
+<li>b 是可选项和非可选项都可以。</li>
+<li>a 和 b 的存储类型必须相同。</li>
+<li>如果 a 不为nil， 则直接返回a。</li>
+<li>如果 a 为nil, 则返回b。</li>
+<li>如果 b 是非可选项，在返回a 时需要对a进行强制解包。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int?</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b    <span class="comment">// Option(1), c 是可选项</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int?</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b    <span class="comment">// Option(2), c 是可选项</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b    <span class="comment">// nil, c 是可选项</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b    <span class="comment">// 2, c 是非可选项</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b    <span class="comment">// 2, c 是非可选项</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int?</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span> = a ?? b ?? <span class="number">3</span>   <span class="comment">// 1, c 是非可选项</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="和-if-let配合使用"><a href="#和-if-let配合使用" class="headerlink" title="?? 和 if let配合使用"></a>?? 和 if let配合使用</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">let</span> b: <span class="type">Int</span>？= <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="built_in">c</span> = a ?? b &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">c</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于 if a != nil || b != nil &#123;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="guard-语句"><a href="#guard-语句" class="headerlink" title="guard 语句"></a>guard 语句</h3><p>guard 语句适合用来做提前退出。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> 条件 <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 退出当前作用域 return\break\continue\throw error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当guard 语句条件为true时，跳过大括号，执行后面的语句。</li>
+<li>当guard 语句条件为false时，会进入大括号， 执行大括号里的内容。</li>
+<li>当使用guard 语句进行可选项绑定时，绑定的临时常量或者变量 能在外层作用域内使用。<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">login</span><span class="params">(<span class="number">_</span> info[String, String])</span></span> &#123;</span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> username = info[<span class="string">"username"</span>] <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"请输入用户名"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"用户名为：\(username)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="隐式解包-Implicitly-Unwrapped-Optional"><a href="#隐式解包-Implicitly-Unwrapped-Optional" class="headerlink" title="隐式解包(Implicitly Unwrapped Optional)"></a>隐式解包(Implicitly Unwrapped Optional)</h3><p>在某些情况下，可选项一旦被赋值，就会一直有值。 在这种情况下可以去掉检查，不必每次访问时都进行解包，因为它每次访问的时候都有值。可以在类型后面加一个感叹号！，定义一个隐式解包的可选项。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num1: <span class="type">Int!</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> num2: <span class="type">Int</span> = num1   <span class="comment">// 进行了隐式解包</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> num1 != <span class="literal">nil</span> &#123;   </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> num = num1  &#123;  <span class="comment">// num1 是可选类型，可进行可选项绑定</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意： 当隐式解包可选项值为nil,使用时会报错。<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1: <span class="type">Int!</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> num2: <span class="type">Int</span> = num1   <span class="comment">// 隐式解包报错 Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h3><p>可选项在字符串插值或者直接打印时，会出现警告。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="type">Int?</span> = <span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"your age is \(age)"</span>)  <span class="comment">// 会有警告~</span></span><br></pre></td></tr></table></figure>
+<p>消除警告的三种方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="type">Int?</span> = <span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"your age is \(age!)"</span>)  <span class="comment">// 强制解包</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"your age is \(String(describing:age))"</span>) </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"your age is \(age ?? 0))"</span>)  <span class="comment">//空合并运算符</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多重可选项"><a href="#多重可选项" class="headerlink" title="多重可选项"></a>多重可选项</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例子1</span></span><br><span class="line"><span class="keyword">var</span> num1: <span class="type">Int?</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> num2: <span class="type">Int?</span>? = num1</span><br><span class="line"><span class="keyword">var</span> num3: <span class="type">Int?</span>? = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (num2 == num3)  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 例子2</span></span><br><span class="line"><span class="keyword">var</span> num1: <span class="type">Int?</span> = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">var</span> num2: <span class="type">Int?</span>? = num1</span><br><span class="line"><span class="keyword">var</span> num3: <span class="type">Int?</span>? = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (num2 == num3)  <span class="comment">// false</span></span><br><span class="line"><span class="comment">// 理解： num2 是有值的，值为num1, 但是num3的值为nil。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (num1 == num3) <span class="comment">// false ，原因：类型不相同。</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用lldb指令 frame variable -R 或者 fr v -R 来查看区别。</p>
+
+    </div>
+
+    
+    
+    
+     <div>
+       
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+       
+     </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Swift/" rel="tag"># Swift</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/17/203.%20%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/" rel="prev" title="移除链表元素">
+      <i class="fa fa-chevron-left"></i> 移除链表元素
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#可选项"><span class="nav-number">1.</span> <span class="nav-text">可选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制解包"><span class="nav-number">1.2.</span> <span class="nav-text">强制解包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选项绑定"><span class="nav-number">1.3.</span> <span class="nav-text">可选项绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选项的并运行符"><span class="nav-number">1.4.</span> <span class="nav-text">可选项的并运行符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空合并运算符"><span class="nav-number">1.5.</span> <span class="nav-text">空合并运算符 ??</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#和-if-let配合使用"><span class="nav-number">1.6.</span> <span class="nav-text">?? 和 if let配合使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#guard-语句"><span class="nav-number">1.7.</span> <span class="nav-text">guard 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐式解包-Implicitly-Unwrapped-Optional"><span class="nav-number">1.8.</span> <span class="nav-text">隐式解包(Implicitly Unwrapped Optional)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串插值"><span class="nav-number">1.9.</span> <span class="nav-text">字符串插值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多重可选项"><span class="nav-number">1.10.</span> <span class="nav-text">多重可选项</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DRAGON"
+      src="/images/user.jpg">
+  <p class="site-author-name" itemprop="name">DRAGON</p>
+  <div class="site-description" itemprop="description">合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/longxiaochi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;longxiaochi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DRAGON</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: '5llOHVNQdYfA6ox3H4S90fME-gzGzoHsz',
+      appKey: 'A7Q6OXtfxv7kq45Q9UOpYYz0',
+      placeholder: "留下你的爪印吧",
+      avatar: 'mp',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
