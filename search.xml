@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>NSDateFormatter的使用</title>
+    <title>jenkins安装使用</title>
     <url>/2021/05/07/Jenkins%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h3 id="jenkins安装"><a href="#jenkins安装" class="headerlink" title="jenkins安装"></a>jenkins安装</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">brew install jenkins</span><br></pre></td></tr></table></figure>
 <p>安装完成后，开启jenkins服务或者每次手动开启jenkins(一般用第一种比较方便)</p>
